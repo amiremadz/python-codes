@@ -49,4 +49,21 @@ class Solution_iterative:
         
         return subs
 
-
+class Solution_bitmanip:
+    def subsets(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        nums.sort()
+        n_subs = 2 ** len(nums)
+     
+        subs = []
+        subs += [[] for _ in range(n_subs)]
+    
+        for idx_num , num in enumerate(nums):
+            for idx_sub in range(n_subs):
+                if (idx_sub >> idx_num) & 1:
+                    subs[idx_sub] += [num]
+        
+        return subs
