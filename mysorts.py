@@ -44,6 +44,21 @@ class MySort(object):
 
         return result
 
+    def insertion(self):
+        result = copy.deepcopy(self.arr)
+
+        for idx in range(1,len(result)):
+            pos = idx
+            value = result[idx]
+
+            while (pos > 0) and (result[pos-1] > value):
+                result[pos] = result[pos - 1]
+                pos -= 1
+            
+            result[pos] = value
+
+        return result
+
 if __name__ == "__main__":
     arr = [12, 4, 56, 23, 3, 67, 128, 44]
     srt = MySort(arr)
@@ -52,7 +67,8 @@ if __name__ == "__main__":
     
     bub = srt.bubble() 
     sel = srt.selection()
-    
+    ins = srt.insertion()
+
     print(bub)
     print(sel)
-
+    print(ins)
