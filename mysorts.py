@@ -21,10 +21,38 @@ class MySort(object):
 
         return result
 
+    def selection(self):
+        result = copy.deepcopy(self.arr)
+
+        idx_end = len(result) - 1
+        idx_sorted = 0
+
+        while idx_sorted < idx_end:
+            minval = result[idx_sorted]
+            idx_minval = idx_sorted
+            
+            for idx in range(idx_sorted + 1, idx_end + 1):
+                if result[idx] < minval:
+                    minval = result[idx]
+                    idx_minval = idx
+            
+            tmp = result[idx_sorted]
+            result[idx_sorted] = result[idx_minval]
+            result[idx_minval] = tmp
+
+            idx_sorted += 1
+
+        return result
+
 if __name__ == "__main__":
     arr = [12, 4, 56, 23, 3, 67, 128, 44]
     srt = MySort(arr)
+    
     print(srt.arr)
-    b = srt.bubble() 
-    print(b)
+    
+    bub = srt.bubble() 
+    sel = srt.selection()
+    
+    print(bub)
+    print(sel)
 
