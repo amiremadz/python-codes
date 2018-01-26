@@ -51,7 +51,7 @@ class MySort(object):
             pos = idx
             value = result[idx]
 
-            while (pos > 0) and (result[pos-1] > value):
+            while (pos > 0) and (result[pos - 1] > value):
                 result[pos] = result[pos - 1]
                 pos -= 1
             
@@ -59,8 +59,32 @@ class MySort(object):
 
         return result
 
+    def insertion_gap(self, arr, gap):
+        start = 0
+        for idx in range(start + gap, len(arr), gap):
+            pos = idx
+            value = arr[idx]
+
+            while (pos > 0) and (arr[pos - gap] > value):
+                arr[pos] = arr[pos - gap]
+                pos -= gap
+
+            arr[pos] = value
+
+    def shell(self):
+        result = copy.deepcopy(self.arr)
+        gap = int(len(result) / 2)
+
+        while gap > 0:
+            self.insertion_gap(result, gap)
+            gap = int(gap / 2)
+            
+        return result
+
+
+
 if __name__ == "__main__":
-    arr = [12, 4, 56, 23, 3, 67, 128, 44]
+    arr = [12, 4, 56, 23, 56,  3, 67, 128, 44]
     srt = MySort(arr)
     
     print(srt.arr)
@@ -68,7 +92,9 @@ if __name__ == "__main__":
     bub = srt.bubble() 
     sel = srt.selection()
     ins = srt.insertion()
+    shl = srt.shell()
 
     print(bub)
     print(sel)
     print(ins)
+    print(shl)
