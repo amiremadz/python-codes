@@ -81,7 +81,43 @@ class MySort(object):
             
         return result
 
+    def merge_helper(self, arr):
 
+        length = len(arr)
+
+        if length == 1:
+            return
+        mid = int(length/2)    
+        left  = arr[:mid]
+        right = arr[mid:]
+
+        self.merge_helper(left)
+        self.merge_helper(right)
+
+        idx_l = 0
+        idx_r = 0
+        idx = 0
+
+        while idx_l < len(left) and idx_r < len(right):
+            if left[idx_l] <= right[idx_r]:
+                arr[idx] = left[idx_l]
+                idx_l += 1
+            else:
+                arr[idx] = right[idx_r]
+                idx_r += 1
+            idx += 1
+
+        if idx_l < len(left):
+            arr[idx:] = left[idx_l:]
+        if idx_r < len(right):
+            arr[idx:] = right[idx_r:]
+
+    def merge(self):
+        result = copy.deepcopy(self.arr)
+        
+        self.merge_helper(result)
+        
+        return result
 
 if __name__ == "__main__":
     arr = [12, 4, 56, 23, 56,  3, 67, 128, 44]
@@ -93,8 +129,10 @@ if __name__ == "__main__":
     sel = srt.selection()
     ins = srt.insertion()
     shl = srt.shell()
+    mrg = srt.merge()
 
     print(bub)
     print(sel)
     print(ins)
     print(shl)
+    print(mrg)
