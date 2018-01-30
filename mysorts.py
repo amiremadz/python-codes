@@ -119,6 +119,46 @@ class MySort(object):
         
         return result
 
+    def quick(self):
+        result = copy.deepcopy(self.arr)
+        return self.quick_helper(result, 0, len(result) - 1)
+
+    def quick_helper(self, arr, lo, hi):
+        if(lo >= hi):
+            return 
+        
+        splitpoint = self.__partition(arr, lo, hi)
+        self.quick_helper(arr, lo, splitpoint - 1)
+        self.quick_helper(arr, splitpoint + 1, hi)
+
+    def __partition(self, arr, lo, hi):
+        pivot = arr[lo]
+        leftmark  = lo + 1
+        rightmark = hi
+
+        done = False
+
+        while not done:
+            while (leftmark <= rightmark) and (arr[leftmark] <= pivot):
+                leftmark += 1
+            
+            while (rightmark >= leftmark) and (arr[rightmark] >= pivot):
+                rightmark -= 1
+            
+            if (rightmark < leftmark):
+                done = True
+            else:
+                tmp = arr[leftmark]
+                arr[leftmark] = tmp
+                arr[rightmark] = tmp
+
+        tmp = arr[lo]
+        arr[lo] = arr[rightmark]
+        arr[rightmark] = tmp
+
+        return rightmark
+
+
 if __name__ == "__main__":
     arr = [12, 4, 56, 23, 56,  3, 67, 128, 44]
     srt = MySort(arr)
@@ -130,9 +170,11 @@ if __name__ == "__main__":
     ins = srt.insertion()
     shl = srt.shell()
     mrg = srt.merge()
+    qck = srt.quick()
 
     print(bub)
     print(sel)
     print(ins)
     print(shl)
     print(mrg)
+    print(qck)
