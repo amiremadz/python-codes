@@ -55,13 +55,6 @@ for j in range(K):
 #plt.scatter(X[:, 0], X[:, 1], c=y, s=40, cmap=plt.cm.Spectral)
 #plt.show()
 
-# Softmax classifier
-
-# Initialize the parameters
-# initialize parameters randomly
-W = 0.01 * np.random.randn(D,K)
-b = np.zeros((1,K))
-
 #Train a Linear Classifier
 
 # initialize parameters randomly
