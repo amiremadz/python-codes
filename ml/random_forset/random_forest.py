@@ -4,7 +4,6 @@ from sklearn.cross_validation import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import RandomForestRegressor
 
-
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.model_selection import GridSearchCV
 
@@ -12,12 +11,13 @@ from sklearn import metrics
 
 from matplotlib import pyplot as plt
 
+from utils import visualize_classifier
+
 import seaborn as sns
 import numpy as np
-
 import sys
 
-# regression
+######## regression #########
 
 rng = np.random.RandomState(42)
 
@@ -49,7 +49,7 @@ plt.errorbar(x, y, 0.3, fmt='o', alpha=0.5)
 plt.plot(xfit, yfit, '-r', label='fit')
 plt.plot(xfit, ytrue, '-k', alpha=1, label='gt')
 plt.legend()
-
+plt.title('a random model performance')
 
 # Number of trees in random forest
 n_estimators = [int(x) for x in np.linspace(start = 200, stop = 2000, num = 10)]
@@ -92,40 +92,38 @@ plt.errorbar(x, y, 0.3, fmt='o', alpha=0.5)
 plt.plot(xfit, yfit_rnd, '-r', label='fit')
 plt.plot(xfit, ytrue, '-k', alpha=1, label='gt')
 plt.legend()
+plt.title('optimized model parameters')
 
-# Create the parameter grid based on the results of random search 
-param_grid = {
-    'bootstrap': [True],
-    'max_depth': [80, 90, 100, 110],
-    'max_features': [2, 3],
-    'min_samples_leaf': [3, 4, 5],
-    'min_samples_split': [8, 10, 12],
-    'n_estimators': [100, 200, 300, 1000]
-}
-# Create a based model
-rf_reg = RandomForestRegressor()
-# Instantiate the grid search model
-grid_search = GridSearchCV(estimator = rf_reg, param_grid = param_grid, 
-                          cv = 3, n_jobs = -1, verbose = 2)
+if 0:
+    # Create the parameter grid based on the results of random search 
+    param_grid = {
+        'bootstrap': [True],
+        'max_depth': [80, 90, 100, 110],
+        'max_features': [2, 3],
+        'min_samples_leaf': [3, 4, 5],
+        'min_samples_split': [8, 10, 12],
+        'n_estimators': [100, 200, 300, 1000]
+    }
+    # Create a based model
+    rf_reg = RandomForestRegressor()
+    # Instantiate the grid search model
+    grid_search = GridSearchCV(estimator = rf_reg, param_grid = param_grid, 
+                              cv = 3, n_jobs = -1, verbose = 2)
 
-grid_search.fit(x[:, None], y)
+    grid_search.fit(x[:, None], y)
 
-print(grid_search.best_params_)
+    print(grid_search.best_params_)
 
-best_grid = grid_search.best_estimator_
-yfit_grid = best_grid.predict(xfit[:, None])
+    best_grid = grid_search.best_estimator_
+    yfit_grid = best_grid.predict(xfit[:, None])
 
-plt.figure()
-plt.errorbar(x, y, 0.3, fmt='o', alpha=0.5)
-plt.plot(xfit, yfit_grid, '-r', label='fit')
-plt.plot(xfit, ytrue, '-k', alpha=1, label='gt')
-plt.legend()
+    plt.figure()
+    plt.errorbar(x, y, 0.3, fmt='o', alpha=0.5)
+    plt.plot(xfit, yfit_grid, '-r', label='fit')
+    plt.plot(xfit, ytrue, '-k', alpha=1, label='gt')
+    plt.legend()
 
-plt.show()
-
-sys.exit()
-
-# image classification
+######### image classification ###########
 
 digits = load_digits()
 print(digits.keys())
@@ -157,8 +155,6 @@ ypred = classforest.predict(Xtest)
 print(metrics.classification_report(ypred, ytest))
 
 confmat = metrics.confusion_matrix(ytest, ypred)
-
-
 
 plt.figure()
 sns.heatmap(confmat.T, square=True, annot=True, fmt='d', cbar=False)
