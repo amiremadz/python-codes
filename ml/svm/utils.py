@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits import mplot3d 
 
 def visualize_classifier(model, X, y, ax=None, cmap='rainbow'):
     ax = ax or plt.gca()
@@ -29,7 +30,7 @@ def visualize_classifier(model, X, y, ax=None, cmap='rainbow'):
 
     ax.set(xlim=xlim, ylim=ylim)
 
-def plot_3D(elev=30, azim=30, X=X, y=y):
+def plot_3D(X, y, r, elev=30, azim=30):
     ax = plt.subplot(projection='3d')
     ax.scatter3D(X[:,0], X[:, 1], r, c=y, s=50, cmap='autumn')
     ax.view_init(elev=elev, azim=azim)
